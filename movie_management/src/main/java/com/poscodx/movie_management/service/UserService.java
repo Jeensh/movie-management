@@ -1,10 +1,9 @@
-package com.poscodx.movie_management.controller;
+package com.poscodx.movie_management.service;
 
 import com.poscodx.movie_management.model.UserDTO;
 import com.poscodx.movie_management.repository.UserRepository;
-import com.poscodx.movie_management.util.DbConnectionUtil;
 
-public class UserController {
+public class UserService {
     private static final UserRepository userRepository = new UserRepository();
 
     public UserDTO signIn(String username, String password){
