@@ -1,6 +1,7 @@
 package com.poscodx.movie_management.repository;
 
 import com.poscodx.movie_management.model.*;
+import com.poscodx.movie_management.util.DbConnectionUtil;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,10 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ScheduleRepository {
-    private DataSource dataSource;
-    public ScheduleRepository(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
+    private static DbConnectionUtil dbConnectionUtil = new DbConnectionUtil();
 
     // 스케줄 추가
     public void add(ScheduleDTO schedule){
@@ -139,12 +137,7 @@ public class ScheduleRepository {
 
     // 커넥션 받기 & 반납
     private Connection getConnection(){
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return dbConnectionUtil.getConnection();
     }
 
     private void closeConnection(Connection connection, PreparedStatement pstmt, ResultSet rs) {

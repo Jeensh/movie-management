@@ -2,6 +2,7 @@ package com.poscodx.movie_management.repository;
 
 import com.poscodx.movie_management.model.MovieDTO;
 import com.poscodx.movie_management.model.TheaterDTO;
+import com.poscodx.movie_management.util.DbConnectionUtil;
 
 import javax.imageio.ImageIO;
 import javax.sql.DataSource;
@@ -14,10 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TheaterRepository {
-    private DataSource dataSource;
-    public TheaterRepository(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
+    private static DbConnectionUtil dbConnectionUtil = new DbConnectionUtil();
 
     // 극장 추가
     public void add(TheaterDTO theater){
@@ -272,12 +270,7 @@ public class TheaterRepository {
 
     // 커넥션 받기 & 반납
     private Connection getConnection(){
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return dbConnectionUtil.getConnection();
     }
 
     private void closeConnection(Connection connection, PreparedStatement pstmt, ResultSet rs) {

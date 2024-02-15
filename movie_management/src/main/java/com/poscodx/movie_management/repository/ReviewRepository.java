@@ -4,6 +4,7 @@ import com.poscodx.movie_management.model.MovieDTO;
 import com.poscodx.movie_management.model.ReviewDTO;
 import com.poscodx.movie_management.model.TheaterDTO;
 import com.poscodx.movie_management.model.UserDTO;
+import com.poscodx.movie_management.util.DbConnectionUtil;
 
 import javax.sql.DataSource;
 import java.awt.image.BufferedImage;
@@ -12,10 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ReviewRepository {
-    private DataSource dataSource;
-    public ReviewRepository(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
+    private static DbConnectionUtil dbConnectionUtil = new DbConnectionUtil();
 
     // 리뷰 추가
     public void add(ReviewDTO review){
@@ -140,12 +138,7 @@ public class ReviewRepository {
 
     // 커넥션 받기 & 반납
     private Connection getConnection(){
-        try {
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return dbConnectionUtil.getConnection();
     }
 
     private void closeConnection(Connection connection, PreparedStatement pstmt, ResultSet rs) {

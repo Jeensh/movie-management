@@ -6,27 +6,23 @@ import lombok.Getter;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static com.poscodx.movie_management.config.DbConfig.*;
 
 public class DbConnectionUtil {
 
-    private static DataSource dataSource;
-    public DbConnectionUtil(){
-        if(dataSource == null){
-        // HikariCP 설정
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(JDBC_URL);
-        config.setUsername(USERNAME);
-        config.setPassword(PASSWORD);
+    public Connection getConnection() {
+        Connection connetion = null;
 
-        // HikariCP 데이터 소스 생성
-        dataSource = new HikariDataSource(config);
+        try {
+            Class.forName(DRIVER);
+            connetion = DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
 
-    public static DataSource getDataSource(){
-        return dataSource;
+        return connetion;
     }
 }
