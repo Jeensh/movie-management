@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public interface ControllerAdapter {
-    boolean supports(Object handler);
-    ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handle)
+    boolean supports(Object controller);
+    ModelView handle(HttpServletRequest request, HttpServletResponse response, Object controller)
         throws ServletException, IOException;
 }

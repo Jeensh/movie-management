@@ -89,6 +89,7 @@ public class UserRepository {
             rs = pstmt.executeQuery();
 
             while(rs.next()){
+                user = new UserDTO();
                 user.setUserId(rs.getInt("user_id"));
                 user.setPassword(rs.getString("password"));
                 user.setUserName(rs.getString("username"));

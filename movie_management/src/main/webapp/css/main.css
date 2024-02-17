@@ -1,0 +1,23 @@
+body {
+    background-color: dimgray;
+}
+
+.input-text{
+    font-size: large;
+    margin-top: 10px;
+    border-radius: 40px 40px 40px 40px;
+    text-align: center;
+}
+
+input::placeholder {
+    font-weight: bold;
+    text-align: center;
+    font-size: medium;
+}
+
+#container {
+    background-color: lightgray;
+    margin-top: 20%;
+    width: 100%;
+    height: 800px;
+}
