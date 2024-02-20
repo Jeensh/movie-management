@@ -1,0 +1,60 @@
+body {
+    background-color: dimgray;
+}
+
+.list-container{
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 80px;
+    background-color: lightgray;
+    border-radius: 20px 20px 20px 20px;
+    border: solid;
+    border-width: thin;
+    border-color: white;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.user-list-section{
+    width: 50%;
+    flex: 1;
+    margin: 5px;
+    border: solid;
+    border-color: black;
+    border-width: medium;
+    border-radius: 20px;
+}
+
+.user-list-section-header{
+    width: 100%;
+    border-radius: 15px 15px;
+    background-color: black;
+    /*height: fit-content;*/
+}
+
+.section-header-text{
+    font-weight: bolder;
+    color: white;
+    font-size: x-large
+}
+
+.user-table-header{
+    font-weight: bold;
+    font-size: large;
+}
+
+.user-table th,
+.user-table td {
+    padding: 10px; /* 각 셀의 안쪽 여백 설정 */
+}
+
+.user-table {
+    border-collapse: collapse; /* 테이블의 경계를 병합하여 셀 간격 조정 */
+    width: 100%; /* 테이블의 너비 설정 */
+}
+
+.user-table th {
+    background-color: lightgray; /* 테이블 헤더의 배경색 설정 */
+}

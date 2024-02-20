@@ -1,5 +1,8 @@
 body {
-    background-color: dimgray;
+    /*background-color: dimgray;*/
+    background-image : url('../resources/menuimages/loginbackground.jpg');
+    background-repeat: no-repeat; /* 이미지 반복 제어 */
+    background-size: cover; /* 이미지를 화면에 맞게 조절 */
 }
 
 .input-text{

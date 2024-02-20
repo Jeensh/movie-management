@@ -3,11 +3,13 @@ package com.poscodx.movie_management.repository;
 import com.poscodx.movie_management.model.*;
 import com.poscodx.movie_management.util.DbConnectionUtil;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class ScheduleRepository {
             pstmt.setDate(3, schedule.getStartDate());
             pstmt.setDate(4, schedule.getEndDate());
 
+            System.out.println(schedule);
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,10 +43,44 @@ public class ScheduleRepository {
         }
     }
 
+    // 총 스케줄 수 조회
+    public int findScheduleCountByTheaterId(int theaterId){
+        String query = "SELECT COUNT(*) AS total " +
+                "FROM schedule " +
+                "WHERE theater_id = ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int total = 0;
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, theaterId);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return total;
+    }
+
     // 스케줄 극장 아이디로 범위 조회
+    // 단, 현재 상영 중인 영화만 조회
     public List<ScheduleDTO> findByTheaterIdAndRange(int theaterId, int size, int pageNumber){
-        String query = "SELECT * FROM schedule " +
-                "WHERE theater_id = ?" +
+        String query = "SELECT * " +
+                "FROM schedule " +
+                "INNER JOIN movie ON movie.movie_id = schedule.movie_id " +
+                "WHERE theater_id = ? " +
+                "AND CURDATE() BETWEEN start_date AND end_date " +
                 "ORDER BY schedule_id DESC " +
                 "LIMIT ? OFFSET ?";
 
@@ -71,7 +109,11 @@ public class ScheduleRepository {
                 MovieDTO movie = new MovieDTO();
                 theater.setTheaterId(theaterId);
                 movie.setMovieId(movieId);
+                movie.setTitle(rs.getString("title"));
+                movie.setGrade(rs.getInt("grade"));
+                movie.setImageAddress(rs.getString("image_address"));
 
+                schedule.setScheduleId(rs.getInt("schedule_id"));
                 schedule.setTheater(theater);
                 schedule.setMovie(movie);
                 schedule.setStartDate(rs.getDate("start_date"));
@@ -115,7 +157,7 @@ public class ScheduleRepository {
 
     // 스케줄 삭제
     public void deleteById(int scheduleId){
-        String query = "DELETE FROM schedule WHERE scheduleId = ?";
+        String query = "DELETE FROM schedule WHERE schedule_id = ?";
 
         Connection connection = null;
         PreparedStatement pstmt = null;

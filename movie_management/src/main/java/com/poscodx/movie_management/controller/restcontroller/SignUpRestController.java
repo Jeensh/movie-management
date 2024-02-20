@@ -23,6 +23,5 @@ public class SignUpRestController implements RestController{
         user.setGrade(UserGrade.NORMAL.getValue());
 
         userService.signUp(user);
-        System.out.println(request.getSession().getAttribute("auth"));
     }
 }

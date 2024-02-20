@@ -1,0 +1,367 @@
+body {
+    background-color: dimgray;
+}
+
+.input-text{
+    font-size: large;
+    margin-top: 10px;
+    border-radius: 40px 40px 40px 40px;
+    text-align: center;
+}
+
+input::placeholder {
+    font-weight: bold;
+    text-align: center;
+    font-size: medium;
+}
+
+.list-container{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 80px;
+    background-color: lightgray;
+    border-radius: 20px 20px 20px 20px;
+    border: solid;
+    border-width: thin;
+    border-color: white
+}
+
+.theater-container{
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 80px;
+    background-color: lightgray;
+    border-radius: 20px 20px 20px 20px;
+    border: solid;
+    border-width: thin;
+    border-color: white
+}
+
+.container-header{
+    background-color: black;
+    border-radius: 20px 20px 0 0;
+}
+
+.theater-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.schedule-writer{
+    font-size: large;
+    font-weight: bolder;
+    color: darkslateblue;
+}
+
+.writer-grade{
+    font-size: small;
+    color: blue;
+    margin-bottom: 0;
+}
+
+.schedule-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border: solid;
+    border-radius: 5px;
+    border-width: thin;
+}
+
+.schedule-input-section {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.schedule-item-basic{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    margin: 3px;
+    border: solid;
+    border-radius: 5px;
+    border-width: thin;
+
+    align-items: stretch; /* 아이템들의 세로 길이를 동일하게 정렬 */
+    justify-content: left; /* 가로로 중앙 정렬 */
+}
+
+.review-score{
+    background-color: transparent;
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    margin-right: 0.6em;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.schedule-tel-image{
+    height: 2em;
+    width: 2em;
+}
+
+.review-grade-text{
+    font-size: 1em;
+    margin: 0; /* 기본 마진 제거 */
+}
+
+.schedule-header {
+    flex: 0 0 30%; /* header가 가로의 30%만 차지하도록 설정 */
+    max-width: 20%; /* 가로로 최대 30%까지 차지 */
+    border-radius: 5px;
+    border: solid thin;
+    text-align: center;
+}
+
+.schedule-content {
+    flex: 0 0 70%; /* content가 가로의 70%만 차지하도록 설정 */
+    max-width: 70%; /* 가로로 최대 70%까지 차지 */
+    text-align: start;
+    white-space: normal; /* 내용이 요소의 영역을 벗어나도 줄 바꿈하여 모든 내용을 출력 */
+    display: flex;
+    padding: 5px;
+}
+
+.movie-description{
+    text-align: start;
+    white-space: normal; /* 내용이 요소의 영역을 벗어나도 줄 바꿈하여 모든 내용을 출력 */
+    overflow: hidden; /* 내용이 요소의 영역을 벗어나는 경우 숨김 처리 */
+}
+
+.edit-button{
+    background-color: beige;
+    border-radius: 5px;
+    font-weight: bolder;
+    margin: 1px;
+}
+
+.delete-button{
+    background-color: red;
+    border-radius: 5px;
+    font-weight: bolder;
+    margin: 1px;
+}
+
+.schedule-control {
+    flex: 0 0 10%; /* 버튼이 가로의 10%만 차지하도록 설정 */
+}
+
+.theater-detail{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.theater-item{
+    width: calc(50% - 20px);
+    margin: 10px;
+    border: solid;
+    border-color: black;
+    border-width: medium;
+    border-radius: 10px;
+    display: flex;
+}
+
+.theater-detail-section{
+    width: calc(50% - 10px);
+    margin: 5px;
+    border: solid;
+    border-color: black;
+    border-width: medium;
+    border-radius: 20px;
+}
+
+.theater-detail-section-header{
+    width: 100%;
+    border-radius: 15px 15px 0px 0px;
+    background-color: black;
+    height: fit-content;
+}
+
+.theater-detail-image{
+    width: 100%;
+    height: 35em
+}
+
+.section-header-text{
+    font-weight: bolder;
+    color: white;
+    font-size: x-large
+}
+
+.theater-title-text{
+    font-weight: bolder;
+    color: white;
+    font-size: x-large;
+    background-color: black;
+}
+
+.schedule-writer{
+
+}
+
+.schedule-textarea{
+    width: 100%;
+    height: 5em;
+}
+
+.theater-image{
+    flex: 1;
+    margin: 5px;
+    border-radius: 10px;
+    height: 20em;
+    width: 15em;
+}
+
+.theater-desc{
+    flex: 1;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 10px
+}
+
+.theater-title{
+    font-size: x-large;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    border-radius: 5px 5px 5px 5px;
+    border: solid;
+    border-width: thick;
+}
+
+.movie-score{
+    text-align: start;
+    font-size: large;
+    font-weight: bolder;
+    color: coral;
+}
+
+.score-title{
+    font-size: medium;
+    font-weight: bolder;
+    color: black;
+}
+
+.theater-tel{
+    text-align: start;
+    font-weight: bolder;
+    color: darkblue;
+}
+
+.tel-title{
+    font-size: large;
+    font-weight: bolder;
+}
+
+.theater-location{
+    margin-top: 5px;
+    text-align: start;
+    font-size: medium;
+    overflow: hidden; /* 내용이 요소의 영역을 벗어나는 경우 숨김 처리 */
+    text-overflow: ellipsis; /* 내용이 너무 길어질 경우 말줄임 표시 (...) */
+}
+
+.location-title{
+    font-size: large;
+    font-weight: bolder;
+}
+
+.page-navigation{
+    width: 100%;
+}
+
+.tel-image{
+    width: 2em;
+    height: 2em;
+}
+
+.movie-grade{
+    text-align: start;
+}
+
+.grade-title{
+    font-size: medium;
+    font-weight: bolder;
+}
+
+.grade-image{
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.schedule-image{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.title{
+    font-size: medium;
+    font-weight: bold;
+}
+
+.movie-content{
+    flex: 1
+}
+
+.movie-date{
+    flex: 1;
+}
+
+.add-button{
+    background-color: #f0efb6;
+    font-size: x-large;
+    font-weight: bolder;
+    align-self: end;
+    border: solid;
+    border-radius: 10px;
+}
+
+.add-button-section{
+    margin: 0.5em;
+}
+
+.edit-name{
+    margin-top: 5%;
+    font-size: x-large;
+    font-weight: bold
+}
+
+.edit-tel{
+    margin-top: 5%;
+    font-size: x-large;
+    font-weight: bold
+}
+
+.edit-location{
+    margin-top: 5%;
+    width: 100%;
+    height: 20em;
+}
+
+.edit-thumbnail{
+    margin-top: 2.5%;
+    font-size: medium;
+    font-weight: bold
+}
+
+.add-thumbnail{
+    margin-bottom: 1%;
+    font-size: medium;
+    font-weight: bold
+}
+
+.theater-add-section{
+    width: 50%;
+    flex: 1;
+    margin: 5px;
+    border: solid;
+    border-color: black;
+    border-width: medium;
+    border-radius: 20px;
+}

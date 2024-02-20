@@ -12,7 +12,8 @@ public class TheaterDTO {
     private String name;
     private String location;
     private String tel;
-    private BufferedImage thumbnail;
+    private byte[] thumbnail;
+    private String imageAddress;
     private List<ScheduleDTO> scheduleList = new LinkedList<>();
 
     public TheaterDTO() {}

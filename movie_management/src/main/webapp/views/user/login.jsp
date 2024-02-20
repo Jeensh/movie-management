@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="../../css/login.css">
 </head>
 <body>
-<section id="container" style="margin-top: 10%">
-    <h1 style="font-size: xx-large">Posco Movie</h1>
+<section id="container" style="margin-top: 15%">
+    <h1 style="font-size: xx-large; font-weight: bold;">Posco Movie</h1>
     <fieldset style="border-radius: 40px 40px 40px 40px">
         <form>
-            <input type="text" name="username" class="input-text" placeholder="아이디"><br>
-            <input type="text" name="password" class="input-text" placeholder="비밀번호"><br>
+            <input type="text" name="username" class="input-text" id="username" placeholder="아이디" autofocus><br>
+            <input type="text" name="password" class="input-text" id="password" placeholder="비밀번호"><br>
         </form>
             <button onclick="login()"
                    style="font-size: large; font-weight: bold; margin-top: 10px; width: 100px; border-radius: 20px 20px 20px 20px">
@@ -26,6 +26,13 @@
 </section>
 
 <script>
+    $("#password").keypress((event) => {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+            login();
+        }
+    });
+
 function login() {
     let param = {
         username: $('input[name="username"]').val(),
@@ -40,7 +47,7 @@ function login() {
             // 로그인 성공
             console.log(response)
             if(JSON.parse(response.auth)){
-                console.log(response.userData)
+                location.href = "/pm/main"
             }
             // 실패
             else{

@@ -14,10 +14,3 @@ input::placeholder {
     text-align: center;
     font-size: medium;
 }
-
-#container {
-    background-color: lightgray;
-    margin-top: 20%;
-    width: 100%;
-    height: 800px;
-}

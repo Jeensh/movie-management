@@ -1,12 +1,10 @@
 package com.poscodx.movie_management.controller.frontcontroller;
 
-import com.poscodx.movie_management.controller.basiccontroller.LoginController;
-import com.poscodx.movie_management.controller.basiccontroller.SignUpController;
+import com.poscodx.movie_management.controller.basiccontroller.*;
 import com.poscodx.movie_management.controller.controlleradapter.BasicControllerAdapter;
 import com.poscodx.movie_management.controller.controlleradapter.ControllerAdapter;
 import com.poscodx.movie_management.controller.controlleradapter.RestControllerAdapter;
-import com.poscodx.movie_management.controller.restcontroller.AuthRestController;
-import com.poscodx.movie_management.controller.restcontroller.SignUpRestController;
+import com.poscodx.movie_management.controller.restcontroller.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,6 +36,32 @@ public class FrontController extends HttpServlet {
         controllerMap.put("/rest/auth", new AuthRestController());
         controllerMap.put("/signup", new SignUpController());
         controllerMap.put("/rest/signup", new SignUpRestController());
+        controllerMap.put("/main", new MainController());
+        controllerMap.put("/movies", new MoviesController());
+        controllerMap.put("/rest/movies", new MoviesRestController());
+        controllerMap.put("/movie", new MovieController());
+        controllerMap.put("/rest/review", new ReviewsRestController());
+        controllerMap.put("/rest/review/delete", new DeleteReviewRestController());
+        controllerMap.put("/theaters", new TheatersController());
+        controllerMap.put("/rest/theaters", new TheatersRestController());
+        controllerMap.put("/theater", new TheaterController());
+        controllerMap.put("/rest/schedule", new ScheduleRestController());
+        controllerMap.put("/rest/schedule/delete", new DeleteScheduleRestController());
+        controllerMap.put("/rest/movie/delete", new DeleteMovieRestController());
+        controllerMap.put("/rest/theater/delete", new DeleteTheaterRestController());
+        controllerMap.put("/movie/edit", new EditMovieController());
+        controllerMap.put("/theater/edit", new EditTheaterController());
+        controllerMap.put("/rest/movie/edit", new EditMovieRestController());
+        controllerMap.put("/rest/theater/edit", new EditTheaterRestController());
+        controllerMap.put("/rest/movie/add", new AddMovieRestController());
+        controllerMap.put("/rest/theater/add", new AddTheaterRestController());
+        controllerMap.put("/movie/add", new AddMovieController());
+        controllerMap.put("/theater/add", new AddTheaterController());
+        controllerMap.put("/rest/schedule/edit", new EditScheduleRestController());
+        controllerMap.put("/rest/users", new UsersRestController());
+        controllerMap.put("/rest/user/edit", new EditUserRestController());
+        controllerMap.put("/users", new UsersController());
+        controllerMap.put("/rest/schedule/add", new AddScheduleRestController());
     }
 
     private void initAdapterList() {
@@ -58,11 +82,10 @@ public class FrontController extends HttpServlet {
 
         // 사용자 인증 실패시 로그인 컨트롤러로 이동
         if(!auth(request)){
-            System.out.println("--" + controller.getClass());
+            System.out.println("matched : " + controller.getClass());
             controller = controllerMap.get("/");
         }
-
-        System.out.println(controller.getClass());
+        System.out.println("result : " + controller.getClass());
 
         ControllerAdapter adapter = getAdapter(controller);
         ModelView mv = adapter.handle(request, response, controller);
@@ -76,7 +99,7 @@ public class FrontController extends HttpServlet {
         uri = uri.substring(3);
 
         // 요청uri 확인
-        System.out.println(uri);
+        System.out.println("url : " + uri);
         return controllerMap.get(uri);
     }
 

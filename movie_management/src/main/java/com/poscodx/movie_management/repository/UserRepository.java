@@ -1,13 +1,13 @@
 package com.poscodx.movie_management.repository;
 
+import com.poscodx.movie_management.model.MovieDTO;
 import com.poscodx.movie_management.model.UserDTO;
 import com.poscodx.movie_management.util.DbConnectionUtil;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserRepository {
     private static DbConnectionUtil dbConnectionUtil = new DbConnectionUtil();
@@ -37,6 +37,33 @@ public class UserRepository {
         }
     }
 
+    // 총 유저 수 조회
+    public int findUserCount(){
+        String query = "SELECT COUNT(*) AS total FROM user";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int total = 0;
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return total;
+    }
+
     // 유저 조회
     public UserDTO findById(int userId){
         String query = "SELECT * FROM user WHERE user_id = ?";
@@ -55,6 +82,8 @@ public class UserRepository {
             rs = pstmt.executeQuery();
 
             while(rs.next()){
+                user = new UserDTO();
+
                 user.setUserId(rs.getInt("user_id"));
                 user.setPassword(rs.getString("password"));
                 user.setUserName(rs.getString("username"));
@@ -68,6 +97,46 @@ public class UserRepository {
             closeConnection(connection, pstmt, rs);
         }
         return user;
+    }
+
+    // 범위 조회
+    public List<UserDTO> findByRange(int size, int pageNumber){
+        String query = "SELECT * FROM user " +
+                "ORDER BY user_id DESC " +
+                "LIMIT ? OFFSET ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        List<UserDTO> userList = new LinkedList<>();
+
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+
+            int offset = (pageNumber - 1) * size;
+            pstmt.setInt(1, size);
+            pstmt.setInt(2, offset);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                UserDTO user = new UserDTO();
+
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("username"));
+                user.setGrade(rs.getInt("grade"));
+                user.setNickname(rs.getString("nickname"));
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return userList;
     }
 
     // 패스워드와 아이디로 조회(로그인 인증)
@@ -130,6 +199,32 @@ public class UserRepository {
     }
 
     // 유저 수정
+    public void update(UserDTO user){
+        String query = "UPDATE user " +
+                "SET username = ?, password = ?, grade = ?, nickname = ?" +
+                "WHERE user_id = ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, user.getUserName());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setInt(3, user.getGrade().getValue());
+            pstmt.setString(4, user.getNickname());
+            pstmt.setInt(5, user.getUserId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection, pstmt, rs);
+        }
+    }
+
 
     // 커넥션 받기 & 반납
     private Connection getConnection(){

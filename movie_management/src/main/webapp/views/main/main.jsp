@@ -13,42 +13,26 @@
     <%@ include file="../component/nav.jsp" %>
 </header>
 
-<section id="container" style="margin-top: 10%">
-
+<section style="margin-top: 10%; text-align: center; background-color: lightgray">
+        <button style="margin: 40px 40px 40px 40px; background-color: transparent; border-color: lightgray" onclick="toMovies()">
+            <img src="../../resources/menuimages/movie.png" width="200" height="200">
+            <p style="font-size: medium; font-weight: bold; margin-top: 10px">영화</p>
+        </button>
+        <button style="margin: 40px 40px 40px 40px; background-color: transparent; border-color: lightgray" onclick="toTheaters()">
+            <img src="../../resources/menuimages/theater.png" width="200" height="200">
+            <p style="font-size: medium; font-weight: bold; margin-top: 10px">극장</p>
+        </button>
 </section>
 
 <script>
-function login() {
-    let param = {
-        username: $('input[name="username"]').val(),
-        password: $('input[name="password"]').val()
-    }
-
-    $.ajax({
-        url: '/pm/rest/auth',
-        method: 'post',
-        data: param,
-        success: (response) => {
-            // 로그인 성공
-            console.log(response)
-            if(JSON.parse(response.auth)){
-                console.log(response.userData)
-            }
-            // 실패
-            else{
-                alert("로그인 실패")
-            }
-        },
-        error:  (request, status, error) => {
-            alert("에러 발생 : " + error.messages)
-        }
-    })
+function toMovies() {
+    location.href = "/pm/movies"
 }
 
-function signUp() {
-    console.log("회원가입으로 이동")
-    location.href = "/pm/signup"
+function toTheaters() {
+    location.href = "/pm/theaters"
 }
+
 </script>
 </body>
 </html>

@@ -26,7 +26,7 @@ public class BasicControllerAdapter implements ControllerAdapter{
         Map<String, String> paramMap = createParamMap(request);
         Map<String, Object> model = new HashMap<>();
 
-        String viewName = basicController.process(paramMap, model);
+        String viewName = basicController.process(request.getSession(), paramMap, model);
 
         ModelView mv = new ModelView(viewName);
         mv.setModel(model);

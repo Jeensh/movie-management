@@ -34,11 +34,9 @@ public class TheaterRepository {
             pstmt.setString(3, theater.getTel());
 
             // 썸네일 이미지 전송
-            byte[] imageData = null;
-            BufferedImage Thumbnail = theater.getThumbnail();
-            if (Thumbnail != null) {
-                imageData = convertImageToByteArray(Thumbnail);
-                pstmt.setBytes(4, imageData);
+            byte[] thumbnail = theater.getThumbnail();
+            if (theater.getThumbnail() != null) {
+                pstmt.setBytes(4, thumbnail);
             }
             else{
                 pstmt.setNull(4, Types.BLOB);
@@ -50,6 +48,58 @@ public class TheaterRepository {
         } finally {
             closeConnection(connection, pstmt, rs);
         }
+    }
+
+    // 극장 추가(썸네일 파일 대신, 이미지 경로로 추가)
+    public void addWithAddress(TheaterDTO theater){
+        String query = "INSERT INTO theater(name, location, tel, image_address) " +
+                "VALUES(?, ?, ?, ?)";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, theater.getName());
+            pstmt.setString(2, theater.getLocation());
+            pstmt.setString(3, theater.getTel());
+            pstmt.setString(4, theater.getImageAddress());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection, pstmt, rs);
+        }
+    }
+
+    // 총 극장 수 조회
+    public int findTheaterCount(){
+        String query = "SELECT COUNT(*) AS total FROM theater";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int total = 0;
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return total;
     }
 
     // 극장 단건 조회
@@ -70,19 +120,18 @@ public class TheaterRepository {
             rs = pstmt.executeQuery();
 
             while(rs.next()){
+                theater = new TheaterDTO();
                 theater.setTheaterId(rs.getInt("theater_id"));
                 theater.setName(rs.getString("name"));
                 theater.setLocation(rs.getString("location"));
                 theater.setTel(rs.getString("tel"));
+                theater.setImageAddress(rs.getString("image_address"));
 
                 // 썸네일 이미지 받아오기
                 byte[] imageData = rs.getBytes("thumbnail");
 
-                try {
-                    ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
-                    theater.setThumbnail(ImageIO.read(bis));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(imageData != null) {
+                    theater.setThumbnail(imageData);
                 }
             }
         } catch (SQLException e) {
@@ -97,7 +146,7 @@ public class TheaterRepository {
     // 극장 범위 조회
     public List<TheaterDTO> findByRange(int size, int pageNumber){
         String query = "SELECT * FROM theater " +
-                "ORDER BY name " +
+                "ORDER BY theater_id DESC " +
                 "LIMIT ? OFFSET ?";
 
         Connection connection = null;
@@ -122,15 +171,13 @@ public class TheaterRepository {
                 theater.setName(rs.getString("name"));
                 theater.setLocation(rs.getString("location"));
                 theater.setTel(rs.getString("tel"));
+                theater.setImageAddress(rs.getString("image_address"));
 
                 // 썸네일 이미지 받아오기
                 byte[] imageData = rs.getBytes("thumbnail");
 
-                try {
-                    ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
-                    theater.setThumbnail(ImageIO.read(bis));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(imageData != null) {
+                    theater.setThumbnail(imageData);
                 }
 
                 theaterList.add(theater);
@@ -174,15 +221,13 @@ public class TheaterRepository {
                 theater.setName(rs.getString("name"));
                 theater.setLocation(rs.getString("location"));
                 theater.setTel(rs.getString("tel"));
+                theater.setImageAddress(rs.getString("image_address"));
 
                 // 썸네일 이미지 받아오기
                 byte[] imageData = rs.getBytes("thumbnail");
 
-                try {
-                    ByteArrayInputStream bis = new ByteArrayInputStream(imageData);
-                    theater.setThumbnail(ImageIO.read(bis));
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(imageData != null) {
+                    theater.setThumbnail(imageData);
                 }
 
                 theaterList.add(theater);
@@ -199,7 +244,7 @@ public class TheaterRepository {
     // 극장 수정
     public void update(TheaterDTO theater){
         String query = "UPDATE theater " +
-                "SET name = ?, location = ?, tel = ?, thumbnail = ? " +
+                "SET name = ?, location = ?, tel = ?, thumbnail = ?, image_address = ? " +
                 "WHERE theater_id = ?";
 
         Connection connection = null;
@@ -214,16 +259,42 @@ public class TheaterRepository {
             pstmt.setString(3, theater.getTel());
 
             // 썸네일 이미지 전송
-            byte[] imageData = null;
-            BufferedImage Thumbnail = theater.getThumbnail();
+            byte[] thumbnail = theater.getThumbnail();
             if (theater.getThumbnail() != null) {
-                imageData = convertImageToByteArray(Thumbnail);
-                pstmt.setBytes(4, imageData);
+                pstmt.setBytes(4, thumbnail);
             }
             else{
                 pstmt.setNull(4, Types.BLOB);
             }
 
+            pstmt.setString(5, theater.getImageAddress());
+            pstmt.setInt(6, theater.getTheaterId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection(connection, pstmt, rs);
+        }
+    }
+
+    // 극장 수정(썸네일 없이)
+    public void updateWithoutThumbnail(TheaterDTO theater){
+        String query = "UPDATE theater " +
+                "SET name = ?, location = ?, tel = ?, image_address = ? " +
+                "WHERE theater_id = ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, theater.getName());
+            pstmt.setString(2, theater.getLocation());
+            pstmt.setString(3, theater.getTel());
+            pstmt.setString(4, theater.getImageAddress());
             pstmt.setInt(5, theater.getTheaterId());
 
             pstmt.executeUpdate();

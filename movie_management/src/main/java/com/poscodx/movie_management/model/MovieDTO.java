@@ -14,7 +14,9 @@ public class MovieDTO {
     private String title;
     private String description;
     private MovieGrade grade;
-    private BufferedImage thumbnail;
+    private byte[] thumbnail;
+    private String imageAddress;
+    private Double avgScore;
     private List<ReviewDTO> reviewList = new LinkedList<>();
 
     public MovieDTO() {}

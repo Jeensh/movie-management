@@ -10,6 +10,7 @@ public class ReviewDTO {
     private MovieDTO movie;
     private Integer score;
     private String content;
+    private int rowCount;
 
     public ReviewDTO() {}
 }

@@ -1,6 +1,7 @@
 package com.poscodx.movie_management.controller.frontcontroller;
 
 import com.google.gson.Gson;
+import com.poscodx.movie_management.model.UserDTO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -25,6 +26,13 @@ public class View {
                        HttpServletResponse response) throws ServletException, IOException {
 
         modelToRequestAttribute(model, request);
+        // 사용자 정보 전달
+        UserDTO user = (UserDTO) request.getSession().getAttribute("auth");
+        if (user != null) {
+            user.setPassword(null);
+            model.put("user", user);
+        }
+
         if ((boolean) model.getOrDefault("rest", false)) {
             Gson gson = new Gson();
             String jsonData = gson.toJson(model);
