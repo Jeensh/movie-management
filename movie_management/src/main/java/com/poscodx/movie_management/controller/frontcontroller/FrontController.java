@@ -33,35 +33,43 @@ public class FrontController extends HttpServlet {
     private void initControllerMap() {
         // 컨트롤러 추가
         controllerMap.put("/", new LoginController());
-        controllerMap.put("/rest/auth", new AuthRestController());
         controllerMap.put("/signup", new SignUpController());
-        controllerMap.put("/rest/signup", new SignUpRestController());
+        controllerMap.put("/users", new UsersController());
         controllerMap.put("/main", new MainController());
+
         controllerMap.put("/movies", new MoviesController());
-        controllerMap.put("/rest/movies", new MoviesRestController());
         controllerMap.put("/movie", new MovieController());
-        controllerMap.put("/rest/review", new ReviewsRestController());
-        controllerMap.put("/rest/review/delete", new DeleteReviewRestController());
-        controllerMap.put("/theaters", new TheatersController());
-        controllerMap.put("/rest/theaters", new TheatersRestController());
-        controllerMap.put("/theater", new TheaterController());
-        controllerMap.put("/rest/schedule", new ScheduleRestController());
-        controllerMap.put("/rest/schedule/delete", new DeleteScheduleRestController());
-        controllerMap.put("/rest/movie/delete", new DeleteMovieRestController());
-        controllerMap.put("/rest/theater/delete", new DeleteTheaterRestController());
-        controllerMap.put("/movie/edit", new EditMovieController());
-        controllerMap.put("/theater/edit", new EditTheaterController());
-        controllerMap.put("/rest/movie/edit", new EditMovieRestController());
-        controllerMap.put("/rest/theater/edit", new EditTheaterRestController());
-        controllerMap.put("/rest/movie/add", new AddMovieRestController());
-        controllerMap.put("/rest/theater/add", new AddTheaterRestController());
         controllerMap.put("/movie/add", new AddMovieController());
+        controllerMap.put("/movie/edit", new EditMovieController());
+
+        controllerMap.put("/theaters", new TheatersController());
+        controllerMap.put("/theater", new TheaterController());
         controllerMap.put("/theater/add", new AddTheaterController());
-        controllerMap.put("/rest/schedule/edit", new EditScheduleRestController());
+        controllerMap.put("/theater/edit", new EditTheaterController());
+
+        controllerMap.put("/rest/auth", new AuthRestController());
+        controllerMap.put("/rest/signup", new SignUpRestController());
+
         controllerMap.put("/rest/users", new UsersRestController());
         controllerMap.put("/rest/user/edit", new EditUserRestController());
-        controllerMap.put("/users", new UsersController());
+
+        controllerMap.put("/rest/movies", new MoviesRestController());
+        controllerMap.put("/rest/movie/add", new AddMovieRestController());
+        controllerMap.put("/rest/movie/edit", new EditMovieRestController());
+        controllerMap.put("/rest/movie/delete", new DeleteMovieRestController());
+
+        controllerMap.put("/rest/theaters", new TheatersRestController());
+        controllerMap.put("/rest/theater/add", new AddTheaterRestController());
+        controllerMap.put("/rest/theater/edit", new EditTheaterRestController());
+        controllerMap.put("/rest/theater/delete", new DeleteTheaterRestController());
+
+        controllerMap.put("/rest/review", new ReviewsRestController());
+        controllerMap.put("/rest/review/delete", new DeleteReviewRestController());
+
+        controllerMap.put("/rest/schedule", new ScheduleRestController());
         controllerMap.put("/rest/schedule/add", new AddScheduleRestController());
+        controllerMap.put("/rest/schedule/edit", new EditScheduleRestController());
+        controllerMap.put("/rest/schedule/delete", new DeleteScheduleRestController());
     }
 
     private void initAdapterList() {

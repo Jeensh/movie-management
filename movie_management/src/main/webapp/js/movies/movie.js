@@ -54,7 +54,7 @@ function initMovie() {
     putMovieImage()
 
     // 평균 평점 삽입 - 미완
-    $(".movie-score").append(7.5)
+    $(".movie-score").append(movieData.avgScore)
 
     // 등급 삽입
     putGradeToItem()
@@ -111,11 +111,7 @@ function addReview(button) {
         data: param,
         success: (response) => {
             alert("리뷰가 등록되었습니다")
-            form.find('.review-textarea').val("")
-            form.find('.rangeInput').val(5)
-            total += 1
-            setPaging();
-            movePage(1)
+            location.reload()
         },
         error: (request, status, error) => {
             alert("에러 발생 : " + error.messages)

@@ -8,6 +8,10 @@ import java.util.List;
 public class ReviewService {
     private static final ReviewRepository reviewRepository = new ReviewRepository();
 
+    public String getAvgScoreByMovieId(int movieId){
+        return reviewRepository.getAvgScoreByMovieId(movieId);
+    }
+
     public List<ReviewDTO> getReviewsByMovieId(int movieId, int size, int pageNumber, int reviewType){
         if(reviewType == 1)
             return reviewRepository.findByMovieIdAndRange(movieId, size, pageNumber);

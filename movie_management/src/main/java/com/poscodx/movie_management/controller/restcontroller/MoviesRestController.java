@@ -26,6 +26,11 @@ public class MoviesRestController implements RestController{
             //      - 2 : 일반 사용자 리뷰 가져오기
             //      - 3 : 평론가 리뷰 가져오기
             MovieDTO movie = movieService.getMovieById(movieId);
+
+            String avgScore = reviewService.getAvgScoreByMovieId(movieId);
+            if(avgScore == null) avgScore = "0";
+
+            movie.setAvgScore(avgScore);
             List<ReviewDTO> reviewList = reviewService.getReviewsByMovieId(movieId, 5, reviewPageNumber, reviewType);
             movie.setReviewList(reviewList);
             int total = reviewService.getReviewCountByMovieIdAndReviewType(movieId, reviewType);

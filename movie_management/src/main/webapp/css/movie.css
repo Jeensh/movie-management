@@ -306,7 +306,7 @@ input::placeholder {
 }
 
 .add-button{
-    background-color: lightskyblue;
+    background-color: #f0efb6;
     font-size: x-large;
     font-weight: bolder;
     align-self: end;

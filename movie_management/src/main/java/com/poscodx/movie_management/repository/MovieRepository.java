@@ -145,8 +145,12 @@ public class MovieRepository {
 
     // 영화 범위 조회
     public List<MovieDTO> findByRange(int size, int pageNumber){
-        String query = "SELECT * FROM movie " +
-                "ORDER BY movie_id DESC " +
+        String query = "SELECT movie.movie_id, description, title, grade, image_address, thumbnail, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
+                "FROM movie " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
+                "GROUP BY movie.movie_id " +
+                "ORDER BY movie.movie_id DESC " +
                 "LIMIT ? OFFSET ?";
 
         Connection connection = null;
@@ -172,6 +176,12 @@ public class MovieRepository {
                 movie.setTitle(rs.getString("title"));
                 movie.setGrade(rs.getInt("grade"));
                 movie.setImageAddress(rs.getString("image_address"));
+
+                String avgScore = rs.getString("score");
+                if(avgScore == null)
+                    avgScore = "0";
+
+                movie.setAvgScore(avgScore);
 
                 // 썸네일 이미지 받아오기
                 byte[] imageData = rs.getBytes("thumbnail");

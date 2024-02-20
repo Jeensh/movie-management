@@ -58,7 +58,7 @@
         <header class="theater-detail-section-header">
             <span class="section-header-text">현재 상영 정보</span>
         </header>
-        <section class="add-button-section">
+        <section class="add-button-section" id="add-button-section">
             <button class="add-button" onclick="moveToAddPage()">상영정보 등록하기</button>
         </section>
         <section id="schedule-section">
@@ -79,7 +79,6 @@
                             </div>
                             <div class="movie-score">
                                 <span class="score-title">평점 : </span>
-                                7.5
                             </div>
                         </div>
                         <div class="movie-date">
@@ -96,9 +95,6 @@
                         <button class="delete-button" onclick="deleteSchedule(this)">삭제</button>
                     </div>
                 </div>
-            </section>
-            <section class="schedule-input-section">
-                <button onclick="addSchedule(this)">상영정보 등록</button>
             </section>
             <%--페이징--%>
             <section class="page-navigation" style="margin-top: 5px">

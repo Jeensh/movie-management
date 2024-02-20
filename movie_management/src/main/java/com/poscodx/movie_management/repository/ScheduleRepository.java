@@ -43,8 +43,8 @@ public class ScheduleRepository {
         }
     }
 
-    // 총 스케줄 수 조회
-    public int findScheduleCountByTheaterId(int theaterId){
+    // 총 스케줄 수 조회(전체)
+    public int findAllScheduleCountByTheaterId(int theaterId){
         String query = "SELECT COUNT(*) AS total " +
                 "FROM schedule " +
                 "WHERE theater_id = ?";
@@ -73,14 +73,46 @@ public class ScheduleRepository {
         return total;
     }
 
-    // 스케줄 극장 아이디로 범위 조회
-    // 단, 현재 상영 중인 영화만 조회
-    public List<ScheduleDTO> findByTheaterIdAndRange(int theaterId, int size, int pageNumber){
-        String query = "SELECT * " +
+    // 총 스케줄 수 조회(현재 상영중인)
+    public int findScheduleCountByTheaterId(int theaterId){
+        String query = "SELECT COUNT(*) AS total " +
+                "FROM schedule " +
+                "WHERE theater_id = ? " +
+                "AND CURDATE() BETWEEN start_date AND end_date";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int total = 0;
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, theaterId);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return total;
+    }
+
+    // 스케줄 극장 아이디로 범위 조회(전체)
+    public List<ScheduleDTO> findALLByTheaterIdAndRange(int theaterId, int size, int pageNumber){
+        String query = "SELECT movie.movie_id, schedule_id, title, grade, image_address, schedule_id, start_date, end_date, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
                 "FROM schedule " +
                 "INNER JOIN movie ON movie.movie_id = schedule.movie_id " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
                 "WHERE theater_id = ? " +
-                "AND CURDATE() BETWEEN start_date AND end_date " +
+                "GROUP BY schedule_id, movie.movie_id " +
                 "ORDER BY schedule_id DESC " +
                 "LIMIT ? OFFSET ?";
 
@@ -112,6 +144,75 @@ public class ScheduleRepository {
                 movie.setTitle(rs.getString("title"));
                 movie.setGrade(rs.getInt("grade"));
                 movie.setImageAddress(rs.getString("image_address"));
+
+                String avgScore = rs.getString("score");
+                if(avgScore == null) avgScore = "0";
+
+                movie.setAvgScore(avgScore);
+
+                schedule.setScheduleId(rs.getInt("schedule_id"));
+                schedule.setTheater(theater);
+                schedule.setMovie(movie);
+                schedule.setStartDate(rs.getDate("start_date"));
+                schedule.setEndDate(rs.getDate("end_date"));
+
+                scheduleList.add(schedule);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return scheduleList;
+    }
+
+    // 스케줄 극장 아이디로 범위 조회(현재 상영중인)
+    public List<ScheduleDTO> findByTheaterIdAndRange(int theaterId, int size, int pageNumber){
+        String query = "SELECT movie.movie_id, schedule_id, title, grade, image_address, schedule_id, start_date, end_date, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
+                "FROM schedule " +
+                "INNER JOIN movie ON movie.movie_id = schedule.movie_id " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
+                "WHERE theater_id = ? " +
+                "AND CURDATE() BETWEEN start_date AND end_date " +
+                "GROUP BY schedule_id, movie.movie_id " +
+                "ORDER BY schedule_id DESC " +
+                "LIMIT ? OFFSET ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        List<ScheduleDTO> scheduleList = new LinkedList<>();
+
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+
+            int offset = (pageNumber - 1) * size;
+            pstmt.setInt(1, theaterId);
+            pstmt.setInt(2, size);
+            pstmt.setInt(3, offset);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                ScheduleDTO schedule = new ScheduleDTO();
+
+                int movieId = rs.getInt("movie_id");
+                TheaterDTO theater = new TheaterDTO();
+                MovieDTO movie = new MovieDTO();
+                theater.setTheaterId(theaterId);
+                movie.setMovieId(movieId);
+                movie.setTitle(rs.getString("title"));
+                movie.setGrade(rs.getInt("grade"));
+                movie.setImageAddress(rs.getString("image_address"));
+
+                String avgScore = rs.getString("score");
+                if(avgScore == null) avgScore = "0";
+
+                movie.setAvgScore(avgScore);
 
                 schedule.setScheduleId(rs.getInt("schedule_id"));
                 schedule.setTheater(theater);

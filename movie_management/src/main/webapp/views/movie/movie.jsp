@@ -97,7 +97,7 @@
             <section class="review-input-section">
                 <textarea class="review-textarea" name="review-textarea"></textarea>
                 <span style="font-weight: bold">평점</span>
-                <input type="range" class="rangeInput" name="review-score" min="1" max="11" step="1" value="5">
+                <input type="range" class="rangeInput" name="review-score" min="0" max="10" step="1" value="5">
                 <button onclick="addReview(this)">등록하기</button>
             </section>
             <%--페이징--%>

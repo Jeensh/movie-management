@@ -1,9 +1,7 @@
 package com.poscodx.movie_management.controller.restcontroller;
 
-import com.poscodx.movie_management.model.MovieDTO;
-import com.poscodx.movie_management.model.ReviewDTO;
-import com.poscodx.movie_management.model.ScheduleDTO;
-import com.poscodx.movie_management.model.TheaterDTO;
+import com.poscodx.movie_management.config.UserGrade;
+import com.poscodx.movie_management.model.*;
 import com.poscodx.movie_management.repository.ScheduleRepository;
 import com.poscodx.movie_management.repository.TheaterRepository;
 import com.poscodx.movie_management.service.MovieService;
@@ -26,10 +24,12 @@ public class TheatersRestController implements RestController{
         int schedulePageNumber = Integer.parseInt(paramMap.getOrDefault("schedulePageNumber", "-1"));
         int pageNumber = Integer.parseInt(paramMap.getOrDefault("pageNumber", "-1"));
         if(theaterId > 0){
+            UserDTO user = (UserDTO) req.getSession().getAttribute("auth");
+
             TheaterDTO theater = theaterService.getTheaterById(theaterId);
-            List<ScheduleDTO> scheduleList = scheduleService.getSchedulesByTheaterId(theaterId, 5, schedulePageNumber);
+            List<ScheduleDTO> scheduleList = scheduleService.getSchedulesByTheaterId(theaterId, 5, schedulePageNumber, user);
             theater.setScheduleList(scheduleList);
-            int total = scheduleService.getScheduleCountByTheaterId(theaterId);
+            int total = scheduleService.getScheduleCountByTheaterId(theaterId, user);
             model.put("theater", theater);
             model.put("total", total);
         }

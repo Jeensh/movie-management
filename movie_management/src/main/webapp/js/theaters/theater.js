@@ -12,7 +12,8 @@ $().ready(() => {
     getData()
 
     // 관리자 아닐 시 상영정보 등록 버튼 삭제
-    $('.schedule-input-section').remove()
+    if(user.grade != "ADMIN")
+        $('#add-button-section').remove()
 })
 
 function initSchedules() {
@@ -122,36 +123,6 @@ function putGradeToItem(scheduleItem, movie) {
     }
 }
 
-function addSchedule(button) {
-    let form = $(button).closest('section');
-    let scheduleText = form.find('.schedule-textarea').val();
-    let scheduleScore = form.find('.rangeInput').val();
-
-    let param = {
-        theaterId: theaterData.theaterId,
-        userId: user.userId,
-        score: scheduleScore,
-        content: scheduleText
-    }
-
-    $.ajax({
-        url: '/pm/rest/schedule',
-        method: 'post',
-        data: param,
-        success: (response) => {
-            alert("리뷰가 등록되었습니다")
-            form.find('.schedule-textarea').val("")
-            form.find('.rangeInput').val(5)
-            total += 1
-            setPaging();
-            movePage(1)
-        },
-        error: (request, status, error) => {
-            alert("에러 발생 : " + error.messages)
-        }
-    })
-}
-
 function movePage(pageNum) {
     clearItems()
     $('#page' + currentPage).removeClass("active")
@@ -170,7 +141,7 @@ function movePage(pageNum) {
         success: (response) => {
             total = response.total
             theaterData = response.theater
-            totalPages = Math.ceil(total / itemsPerPage);
+            totalPages = Math.ceil(total / itemsPerPage)
             theaterData.scheduleList.forEach((schedule) => {
                 addNewScheduleItem(schedule)
             })
@@ -195,6 +166,8 @@ function addNewScheduleItem(schedule) {
     scheduleItem.find(".schedule-image").attr("src", schedule.movie.image_address)
     scheduleItem.find(".schedule-id").val(schedule.scheduleId)
     scheduleItem.find('.movie-title').append(schedule.movie.title)
+    console.log(schedule.movie)
+    scheduleItem.find(".movie-score").append(schedule.movie.avgScore)
     putScheduleImage(scheduleItem, schedule.movie)
     putGradeToItem(scheduleItem, schedule.movie)
 

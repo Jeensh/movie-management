@@ -46,7 +46,7 @@ function addNewMovieItem(movie) {
     movieItem.find(".movie-summary").append(movie.description)
 
     // 평균 평점 삽입 - 미완
-    movieItem.find(".movie-score").append(7.5)
+    movieItem.find(".movie-score").append(movie.avgScore)
 
     // 등급 삽입
     putGradeToItem(movie, movieItem)
