@@ -62,7 +62,7 @@
         <header class="movie-detail-section-header">
             <span class="section-header-text">리 뷰</span>
         </header>
-<%--         리뷰 조회 타입 설정--%>
+        <%--         리뷰 조회 타입 설정--%>
         <section class="review-type-section">
             <input type="radio" class="btn-check" name="review-type" id="all" value=1 autocomplete="off" checked>
             <label class="btn type-label" for="all">ALL</label>
@@ -94,21 +94,15 @@
                     </div>
                 </div>
             </section>
-            <section class="review-input-section">
+            <section class="review-input-section" style="margin-bottom: 5px">
                 <textarea class="review-textarea" name="review-textarea"></textarea>
                 <span style="font-weight: bold">평점</span>
                 <input type="range" class="rangeInput" name="review-score" min="0" max="10" step="1" value="5">
                 <button onclick="addReview(this)">등록하기</button>
             </section>
             <%--페이징--%>
-            <section class="page-navigation" style="margin-top: 5px">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                    </ul>
-                </nav>
-            </section>
+            <%@include file="../component/paging.jsp"%>
         </section>
-
     </section>
 </section>
 

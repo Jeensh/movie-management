@@ -20,4 +20,10 @@
             </li>
         </ul>
     </div>
+    <div id="search-section" hidden>
+        <form class="d-flex" role="search" id="search-form" hidden style="margin-right: 5px; margin-left: 5px">
+            <input class="form-control me-2" type="search" id="search-input" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
 </nav>

@@ -48,11 +48,11 @@
             <section class="edit-input-section">
                 <%--                극장 이름--%>
                 <label class="edit-name">이름: <input type="text"
-                                                        name="theater-name"></label><br>
+                                                    name="theater-name"></label><br>
 
                 <%--                전화 번호--%>
                 <label class="edit-tel">번호: <input type="text"
-                                                        name="theater-tel" maxlength="11" minlength="10"></label><br>
+                                                   name="theater-tel" maxlength="11" minlength="10"></label><br>
 
                 <%--                주소--%>
                 <textarea class="edit-location" name="location-textarea"></textarea>

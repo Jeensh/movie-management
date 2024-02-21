@@ -320,7 +320,7 @@ function deleteReview(button) {
     })
 }
 
-function setReviewRadioTypeEvent(){
+function setReviewRadioTypeEvent() {
     $('input[name="review-type"]').change((event) => {
         // 선택한 라디오 버튼의 값을 가져옴
         let selectedValue = $(event.target).val()

@@ -26,11 +26,12 @@
             <section class="edit-input-section">
                 <%--                제목--%>
                 <label class="edit-title">제목: <input type="text"
-                                                                                                name="movie-title"></label><br>
+                                                     name="movie-title"></label><br>
 
                 <%--                등급--%>
                 <div class="grade-radio">
-                    <input type="radio" class="btn-check" name="grade" id="option1" value="1" autocomplete="off" checked>
+                    <input type="radio" class="btn-check" name="grade" id="option1" value="1" autocomplete="off"
+                           checked>
                     <label class="btn" for="option1">ALL</label>
 
                     <input type="radio" class="btn-check" name="grade" id="option2" value="2" autocomplete="off">
@@ -47,7 +48,8 @@
                 <textarea class="edit-description" name="description-textarea" placeholder="줄거리"></textarea>
 
                 <%--                썸네일 경로            --%>
-                <label class="edit-thumbnail" style="margin-top: 1%; margin-bottom: 2%">썸네일 경로: <input type="text" name="image-address"></label>
+                <label class="edit-thumbnail" style="margin-top: 1%; margin-bottom: 2%">썸네일 경로: <input type="text"
+                                                                                                       name="image-address"></label>
 
                 <button onclick="addMovie()">등록하기</button>
             </section>

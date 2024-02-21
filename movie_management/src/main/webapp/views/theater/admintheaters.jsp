@@ -46,12 +46,7 @@
         </div>
     </section>
     <%--페이징--%>
-    <section class="page-navigation">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-            </ul>
-        </nav>
-    </section>
+    <%@include file="../component/paging.jsp"%>
 </section>
 
 <script src="../../js/theaters/admintheaters.js"></script>

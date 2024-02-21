@@ -35,7 +35,7 @@
                                 <th>패스워드</th>
                             </tr>
                             <tr class="user-item-basic" id="user-item" hidden>
-                                <td><input type="text" name="user-id" class="form-control" required readonly ></td>
+                                <td><input type="text" name="user-id" class="form-control" required readonly></td>
                                 <td>
                                     <select name="grade" required>
                                         <option value="1">NORMAL</option>
@@ -46,7 +46,11 @@
                                 <td><input type="text" name="username" class="form-control" required readonly></td>
                                 <td><input type="text" name="nickname" class="form-control" required></td>
                                 <td><input type="password" name="password" class="form-control" required></td>
-                                <td><button type="button" onclick="editUser(this)" class="btn btn-primary" style="width: 5em">저장</button></td>
+                                <td>
+                                    <button type="button" onclick="editUser(this)" class="btn btn-primary"
+                                            style="width: 5em">저장
+                                    </button>
+                                </td>
                             </tr>
                         </table>
                         <br>
@@ -55,12 +59,7 @@
             </div>
         </section>
         <%--페이징--%>
-        <section class="page-navigation">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                </ul>
-            </nav>
-        </section>
+        <%@include file="../component/paging.jsp"%>
     </section>
 </section>
 

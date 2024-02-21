@@ -21,7 +21,8 @@ public class AddMovieRestController implements RestController{
         movie.setTitle(title);
         movie.setGrade(grade);
         movie.setDescription(description);
-        movie.setImageAddress(imageAddress);
+        if(!imageAddress.isEmpty())
+            movie.setImageAddress(imageAddress);
         movieService.addMovie(movie);
     }
 }

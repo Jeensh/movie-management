@@ -97,6 +97,8 @@ function editMovie() {
     let description = $('.edit-input-section textarea[name="description-textarea"]').val();
     let src = $('.edit-input-section input[name="image-address"]').val();
 
+    if(src == "") src = null;
+
     let param = {
         movieId: movieId,
         title: title,

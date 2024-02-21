@@ -65,7 +65,10 @@ public class TheaterRepository {
             pstmt.setString(1, theater.getName());
             pstmt.setString(2, theater.getLocation());
             pstmt.setString(3, theater.getTel());
-            pstmt.setString(4, theater.getImageAddress());
+            if(theater.getImageAddress() == null || theater.getImageAddress().isEmpty())
+                pstmt.setNull(4, Types.CHAR);
+            else
+                pstmt.setString(4, theater.getImageAddress());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -267,7 +270,10 @@ public class TheaterRepository {
                 pstmt.setNull(4, Types.BLOB);
             }
 
-            pstmt.setString(5, theater.getImageAddress());
+            if(theater.getImageAddress() == null)
+                pstmt.setNull(5, Types.CHAR);
+            else
+                pstmt.setString(5, theater.getImageAddress());
             pstmt.setInt(6, theater.getTheaterId());
 
             pstmt.executeUpdate();
@@ -294,7 +300,10 @@ public class TheaterRepository {
             pstmt.setString(1, theater.getName());
             pstmt.setString(2, theater.getLocation());
             pstmt.setString(3, theater.getTel());
-            pstmt.setString(4, theater.getImageAddress());
+            if(theater.getImageAddress() == null || theater.getImageAddress().isEmpty())
+                pstmt.setNull(4, Types.CHAR);
+            else
+                pstmt.setString(4, theater.getImageAddress());
             pstmt.setInt(5, theater.getTheaterId());
 
             pstmt.executeUpdate();

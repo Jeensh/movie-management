@@ -58,7 +58,7 @@
         <header class="theater-detail-section-header">
             <span class="section-header-text">현재 상영 정보</span>
         </header>
-        <section class="add-button-section" id="add-button-section">
+        <section class="add-button-section" id="add-button-section" hidden>
             <button class="add-button" onclick="moveToAddPage()">상영정보 등록하기</button>
         </section>
         <section id="schedule-section">
@@ -66,7 +66,7 @@
                 <div class="schedule-item-basic" id="schedule-item" hidden>
                     <input type="hidden" class="schedule-id" value="-1">
                     <div class="schedule-header">
-                        <img class="schedule-image">
+                        <a><img class="schedule-image"></a>
                     </div>
                     <div class="schedule-content">
                         <div class="movie-content">
@@ -97,41 +97,14 @@
                 </div>
             </section>
             <%--페이징--%>
-            <section class="page-navigation" style="margin-top: 5px">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                    </ul>
-                </nav>
-            </section>
+            <%@include file="../component/paging.jsp"%>
         </section>
 
     </section>
 </section>
 
 <!-- 수정 모달 -->
-<div class="modal fade" id="edit-schedule-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">상영정보 수정</h5>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="edit-start-date">시작일:</label>
-                    <input type="date" class="form-control" id="edit-start-date">
-                </div>
-                <div class="form-group">
-                    <label for="edit-end-date">종료일:</label>
-                    <input type="date" class="form-control" id="edit-end-date">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button id="edit-schedule-button" type="button" class="btn btn-primary">저장</button>
-            </div>
-        </div>
-    </div>
-</div>
+<%@include file="../component/editmodal.jsp"%>
 
 <script src="../../js/theaters/theater.js"></script>
 </body>

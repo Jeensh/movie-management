@@ -23,6 +23,10 @@ public class MovieService {
         return list;
     }
 
+    public int getTotalCountByKeyWord(String keyWord){
+        return movieRepository.findMovieCountByKeyWord(keyWord);
+    }
+
     public MovieDTO getMovieById(int id) {
         return movieRepository.findById(id);
     }

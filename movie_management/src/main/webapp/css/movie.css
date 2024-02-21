@@ -209,18 +209,20 @@ input::placeholder {
 }
 
 .movie-image{
-    flex: 1;
+    /*flex: 1;*/
     margin: 5px;
     border-radius: 10px;
     height: 20em;
-    width: 15em;
+    /*width: 15em;*/
+    width: calc(100% - 10px);
 }
 
 .movie-desc{
-    flex: 1;
+    /*flex: 1;*/
     margin-top: 5px;
     margin-bottom: 5px;
-    margin-right: 10px
+    margin-right: 10px;
+    width: 23em;
 }
 
 .movie-title{
@@ -230,6 +232,7 @@ input::placeholder {
     border-radius: 5px 5px 5px 5px;
     border: solid;
     border-width: thick;
+    width: 100%;
 }
 
 .movie-score{

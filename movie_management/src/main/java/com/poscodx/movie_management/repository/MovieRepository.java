@@ -65,7 +65,10 @@ public class MovieRepository {
             pstmt.setString(1, movie.getTitle());
             pstmt.setString(2, movie.getDescription());
             pstmt.setInt(3, movie.getGrade().getValue());
-            pstmt.setString(4, movie.getImageAddress());
+            if(movie.getImageAddress() == null)
+                pstmt.setNull(4, Types.CHAR);
+            else
+                pstmt.setString(4, movie.getImageAddress());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -87,6 +90,34 @@ public class MovieRepository {
         try {
             connection = getConnection();
             pstmt = connection.prepareStatement(query);
+
+            rs = pstmt.executeQuery();
+
+            while(rs.next()){
+                total = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        finally {
+            closeConnection(connection, pstmt, rs);
+        }
+        return total;
+    }
+
+    public int findMovieCountByKeyWord(String keyword) {
+        String query = "SELECT COUNT(*) AS total FROM movie " +
+                "WHERE title LIKE ?";
+
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        int total = 0;
+        try {
+            connection = getConnection();
+            pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, "%" + keyword + "%");
 
             rs = pstmt.executeQuery();
 
@@ -203,9 +234,26 @@ public class MovieRepository {
 
     // 영화 키워드 조회
     public List<MovieDTO> findByKeyWord(String keyWord, int size, int pageNumber){
-        String query = "SELECT * FROM movie " +
+        String query = "SELECT movie.movie_id, description, title, grade, image_address, thumbnail, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
+                "FROM movie " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
                 "WHERE title LIKE ? " +
-                "ORDER BY title " +
+                "GROUP BY movie.movie_id " +
+                "UNION " +
+                "SELECT movie.movie_id, description, title, grade, image_address, thumbnail, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
+                "FROM movie " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
+                "WHERE title LIKE ? " +
+                "GROUP BY movie.movie_id " +
+                "UNION " +
+                "SELECT movie.movie_id, description, title, grade, image_address, thumbnail, " +
+                "CAST(ROUND(AVG(review.score), 1) AS CHAR) AS score " +
+                "FROM movie " +
+                "LEFT JOIN review ON movie.movie_id = review.movie_id " +
+                "WHERE title LIKE ? " +
+                "GROUP BY movie.movie_id " +
                 "LIMIT ? OFFSET ?";
 
         Connection connection = null;
@@ -219,9 +267,11 @@ public class MovieRepository {
             pstmt = connection.prepareStatement(query);
 
             int offset = (pageNumber - 1) * size;
-            pstmt.setString(1, "%" + keyWord + "%");
-            pstmt.setInt(2, size);
-            pstmt.setInt(3, offset);
+            pstmt.setString(1, keyWord);
+            pstmt.setString(2, keyWord + "%");
+            pstmt.setString(3, "%" + keyWord + "%");
+            pstmt.setInt(4, size);
+            pstmt.setInt(5, offset);
 
             rs = pstmt.executeQuery();
 
@@ -254,7 +304,7 @@ public class MovieRepository {
     // 영화 수정
     public void update(MovieDTO movie){
         String query = "UPDATE movie " +
-                "SET title = ?, description = ?, grade = ?, thumbnail = ?, image_address = ?" +
+                "SET title = ?, description = ?, grade = ?, thumbnail = ?, image_address = ? " +
                 "WHERE movie_id = ?";
 
         Connection connection = null;
@@ -277,7 +327,10 @@ public class MovieRepository {
                 pstmt.setNull(4, Types.BLOB);
             }
 
-            pstmt.setString(5, movie.getImageAddress());
+            if(movie.getImageAddress() == null)
+                pstmt.setNull(5, Types.CHAR);
+            else
+                pstmt.setString(5, movie.getImageAddress());
             pstmt.setInt(6, movie.getMovieId());
 
             pstmt.executeUpdate();

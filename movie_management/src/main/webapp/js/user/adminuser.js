@@ -51,11 +51,11 @@ function addNewUserItem(user) {
     userItem.find('input[name="nickname"]').val(user.nickname)
 
     let gradeVal = 0
-    if(user.grade == "NORMAL")
+    if (user.grade == "NORMAL")
         gradeVal = 1
-    else if(user.grade == "EXPERT")
+    else if (user.grade == "EXPERT")
         gradeVal = 2
-    else if(user.grade == "ADMIN")
+    else if (user.grade == "ADMIN")
         gradeVal = 3
 
     userItem.find('select[name="grade"]').val(gradeVal)
@@ -205,7 +205,7 @@ function prevPage() {
     movePage(startidx)
 }
 
-function generatePageButtons(startidx, endidx){
+function generatePageButtons(startidx, endidx) {
     for (let i = startidx; i <= endidx; i++) {
         let pageButton = '<li class="page-item" id="page' + i + '"><button class="page-link" onclick="movePage(this.textContent)">' + i + '</button></li>';
         $('.pagination').append(pageButton);

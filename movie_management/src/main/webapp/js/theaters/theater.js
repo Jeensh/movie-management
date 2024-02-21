@@ -10,10 +10,6 @@ let itemsPerPage = 5
 $().ready(() => {
     // 데이터 가져오기
     getData()
-
-    // 관리자 아닐 시 상영정보 등록 버튼 삭제
-    if(user.grade != "ADMIN")
-        $('#add-button-section').remove()
 })
 
 function initSchedules() {
@@ -39,6 +35,12 @@ function getData() {
             initSchedules()
             total = response.total
             setPaging()
+
+            // 관리자 아닐 시 상영정보 등록 버튼 삭제
+            if (response.user.grade == "ADMIN")
+                $('#add-button-section').removeAttr('hidden')
+            else
+                $('#add-button-section').remove()
         },
         error: (request, status, error) => {
             alert("에러 발생 : " + error.messages)
@@ -164,9 +166,9 @@ function addNewScheduleItem(schedule) {
     scheduleItem.removeAttr('hidden')
     scheduleItem.attr("id", "schedule-item" + ++itemCount);
     scheduleItem.find(".schedule-image").attr("src", schedule.movie.image_address)
+    scheduleItem.find('a').attr('href', '/pm/movie?movieId=' + schedule.movie.movieId);
     scheduleItem.find(".schedule-id").val(schedule.scheduleId)
     scheduleItem.find('.movie-title').append(schedule.movie.title)
-    console.log(schedule.movie)
     scheduleItem.find(".movie-score").append(schedule.movie.avgScore)
     putScheduleImage(scheduleItem, schedule.movie)
     putGradeToItem(scheduleItem, schedule.movie)
@@ -360,12 +362,12 @@ function editSchedule(button) {
     $('#edit-schedule-modal').modal('show');
 
     // 수정 버튼 클릭 시 스케줄 정보를 업데이트하는 함수 호출
-    $('#edit-schedule-button').unbind('click').click(function() {
+    $('#edit-schedule-button').unbind('click').click(function () {
         updateSchedule(scheduleId);
     });
 }
 
-function updateSchedule(schduleId){
+function updateSchedule(schduleId) {
     let startDate = $('#edit-start-date').val()
     let endDate = $('#edit-end-date').val()
 

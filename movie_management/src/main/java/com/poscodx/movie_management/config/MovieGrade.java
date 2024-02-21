@@ -1,5 +1,4 @@
 package com.poscodx.movie_management.config;
-
 public enum MovieGrade {
     ALL(1),
     TWELVE(2),

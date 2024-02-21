@@ -16,7 +16,6 @@
 <header>
     <%@ include file="../component/adminnav.jsp" %>
 </header>
-
 <section style="margin-top: 10%; text-align: center; background-color: lightgray">
     <button style="margin: 40px 40px 40px 40px; background-color: transparent; border-color: lightgray">
         <img src="../../resources/menuimages/movie.png" width="200" height="200" onclick="toMovies()">
@@ -47,3 +46,4 @@
     }
 </script>
 </html>
+

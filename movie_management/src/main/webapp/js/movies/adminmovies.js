@@ -1,36 +1,33 @@
-let total = 0
 let itemCount = 0
-let totalPages = 0
-let currentPage = 1
-let itemsPerPage = 10
-let theaterIdForSchedule = 0
+
+// 페이징 수행 변수
+let total = 0           // 검색한 결과물의 총 결과물(아이템) 수, 아이템 추가시 +1필요, 아이템 삭제시 -1 필요
+let totalPages = 0      // 검색한 결과물 수에 기반한 총 페이지 수
+let currentPage = 1     // 현재 페이지
+let itemsPerPage = 10   // 한 페이지당 보여줄 아이템 개수
+let type = 0            // 서버에 리스트 요청시 보낼 컨트롤 변수
+let keyword = ""
 
 // 시작 시 세팅
 $().ready(() => {
     // 1페이지 영화 세팅
     initMovieItems()
 
-    // 페이징 세팅
-    initPaging()
+    // 검색 세팅
+    initSearchForm()
 })
 
-function initPaging() {
-    let param = {
-        pageNumber: 0
-    }
+function initSearchForm() {
+    $("#search-section").removeAttr('hidden')
 
-    $.ajax({
-        url: '/pm/rest/movies',
-        method: 'post',
-        data: param,
-        success: (response) => {
-            total = response.total
-            setPaging()
-        },
-        error: (request, status, error) => {
-            alert("에러 발생 : " + error.messages)
-        }
-    })
+    $("#search-form").submit((event) => {
+        event.preventDefault(); // 기본 제출 동작 방지
+
+        // 입력값 가져오기
+        keyword = $("#search-input").val();
+
+        movePage(1)
+    });
 }
 
 function initMovieItems() {
@@ -123,7 +120,7 @@ function putThumbnailToItem(movie, movieItem) {
     }
     else{
         movieItem.find('a').attr('data-bs-toggle', 'modal')
-        movieItem.find('a').attr('data-bs-target', '#add-schedule-modal')
+        movieItem.find('a').attr('data-bs-target', '#edit-schedule-modal')
         movieItem.find('a').on('click', (event) => {
             addScheduleInit(event)
         });
@@ -133,8 +130,9 @@ function putThumbnailToItem(movie, movieItem) {
 function addScheduleInit(event) {
     let movieItem = $(event.target).closest('.movie-item');
     let movieId = movieItem.find('.movie-id').val();
+
     // 수정 버튼 클릭 시 스케줄 정보를 업데이트하는 함수 호출
-    $('#add-schedule-button').unbind('click').click(() => {
+    $('#edit-schedule-button').unbind('click').click(() => {
         addSchedule(movieId);
     });
 }
@@ -178,17 +176,22 @@ function movePage(pageNum) {
     $('#page' + currentPage).addClass("active")
 
     let param = {
-        pageNumber: pageNum
+        pageNumber: pageNum,
+        keyword: keyword
     }
 
     $.ajax({
-        url: '/pm/rest/movies',
+        url: "/pm/rest/movies",
         method: 'post',
         data: param,
         success: (response) => {
+            let oldTotal = total
+            total = response.total
             response.movies.forEach((movie) => {
                 addNewMovieItem(movie)
             })
+            if(oldTotal != total)
+                setPaging()
         },
         error: (request, status, error) => {
             alert("에러 발생 : " + error.messages)
